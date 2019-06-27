@@ -28,6 +28,10 @@ const validationSchema= Yup.object({
   zip: Yup.string("Please enter your Zip Code").required("Zip Code is required"),
 })
 
+const submitValues=({firstName,lastName, address1,address2,state,city,zip}) => {
+  console.log({firstName,lastName, address1,address2,state,city,zip})
+}
+
 class DonateForm extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +41,7 @@ class DonateForm extends Component {
   render() {
    const {classes} = this.props;
    const values = {firstName:"", lastName:"", address1:"", address2:"", city:"", state:"", zip:""}
+
    return (
    <React.Fragment>
      <div className={classes.container}>
@@ -46,6 +51,7 @@ class DonateForm extends Component {
              render={props => <Form {...props} />}
              initialValues={values}
              validationSchema={validationSchema}
+             onSubmit={this.submitValues}
          />
          </Paper>
      </div>

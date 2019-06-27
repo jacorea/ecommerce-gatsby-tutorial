@@ -12,6 +12,7 @@ export const Form = (props) => {
     handleChange,
     isValid,
     setFieldTouched,
+    handleSubmit,
   } = props;
 
   const change = (name,e) => {
@@ -21,9 +22,7 @@ export const Form = (props) => {
     console.log(name)
   }
   return (
-   <form onSubmit={() => {
-     alert("submitted")}
-    }>
+   <form onSubmit={handleSubmit}>
      <TextField 
       id="firstName" 
       name="firstName" 
