@@ -1,4 +1,5 @@
 import React from "react"
+import DonateForm from "../components/DonateForm"
 
 export default class IndexPage extends React.Component {
   state = {
@@ -6,35 +7,26 @@ export default class IndexPage extends React.Component {
     lastName: "",
   }
 
-  handleInputChange = event => { 
-      const target = event.target 
-      const value = target.value 
-      const name = target.name
+//   handleInputChange = (e) => { 
+//       console.log(e.target.value)
+     
 
-      this.setState({[name]: value,})
-  }
+//       this.setState({[e.target.name]: e.target.value,})
+//   }
+
+//   handleSubmit = e => {
+//       const {firstName, lastName } = this.state
+//       e.preventDefault()
+//       alert(`welcome ${firstName} ${lastName}!`)
+//   }
+
+
 
   render() {
     return (
-      <form>
-        <label>
-          First name
-          <input 
-            type="text" 
-            name="firstName" 
-            onChange={this.handleInputChange} 
-            value={this.state.firstName}/>
-        </label>
-        <label>
-          Last name
-          <input 
-            type="text" 
-            name="lastName"
-            onChange={this.handleInputChange} 
-            value={this.state.firstName} />
-        </label>
-        <button type="submit">Submit</button>
-      </form>
+     <div>
+         <DonateForm/>
+     </div>
     )
   }
 }
