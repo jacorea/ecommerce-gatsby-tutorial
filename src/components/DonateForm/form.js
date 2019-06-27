@@ -15,6 +15,7 @@ export const Form = (props) => {
     handleSubmit,
   } = props;
 
+
   const change = (name,e) => {
     e.persist();
     handleChange(e);

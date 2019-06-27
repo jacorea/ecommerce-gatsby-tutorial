@@ -35,23 +35,44 @@ const submitValues=({firstName,lastName, address1,address2,state,city,zip}) => {
 class DonateForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      firstname: "",
+      lastName: "",
+      corporation: "",
+      address1: "",
+      address2: "",
+      city: "",
+      state: "",
+      zip:"",
+      donation: "",
+    };
+  }
+
+  handleInputChange = (e) => {
+    this.setState({[e.target.name]: e.target.value})
+    console.log(e.target.value)
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
+    alert(`welcome ${this.state.firstName} ${this.state.lastName} `)
   }
  
   render() {
    const {classes} = this.props;
    const values = {firstName:"", lastName:"", address1:"", address2:"", city:"", state:"", zip:""}
-
+   const {firstName, lastName,corporation, address1,address2,city,state,zip,donation} = this.state;
    return (
    <React.Fragment>
      <div className={classes.container}>
          <Paper elevation={1} className={classes.paper}>
          <h1> Donation Form</h1>
+         <hr></hr>
          <Formik
              render={props => <Form {...props} />}
              initialValues={values}
              validationSchema={validationSchema}
-             onSubmit={this.submitValues}
+             onSubmit={submitValues}
          />
          </Paper>
      </div>
