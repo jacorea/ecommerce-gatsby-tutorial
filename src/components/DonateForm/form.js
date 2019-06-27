@@ -1,4 +1,6 @@
 import React from "react";
+
+//Material-ui Imports
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
@@ -12,7 +14,7 @@ export const Form = (props) => {
      <TextField id="city" name="city" label="City" fullWidth type="text"/>
      <TextField id="state" name="state" label="State" fullWidth type="text"/>
      <TextField id="zip" name="zip" label="Zip" fullWidth />
-     <Button type="submit" variant="raised" color="primary"> Submit </Button>
+     <Button type="submit" variant="raised" color="primary" fullWidth> Submit </Button>
    </form>
  );
 };

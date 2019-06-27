@@ -13,7 +13,8 @@ const styles = theme => ({
    padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 5}px ${theme.spacing.unit * 5}px`
  },
  container: {
-   maxWidth: "500px"
+   maxWidth: "500px",
+   margin: "auto",
  }
 });
 
