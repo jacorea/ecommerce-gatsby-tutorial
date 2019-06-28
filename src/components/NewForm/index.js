@@ -8,6 +8,7 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import * as Yup from "yup";
+import classNames from "classnames";
 
 const styles = theme => ({
  paper: {
@@ -22,6 +23,64 @@ const styles = theme => ({
    margin: "auto",
  }
 });
+
+// Input feedback
+const InputFeedback = ({ error }) =>
+  error ? <div className={classNames("input-feedback")}>{error}</div> : null;
+
+// Checkbox input
+const Checkbox = ({
+  field: { name, value, onChange, onBlur },
+  form: { errors, touched, setFieldValue },
+  id,
+  label,
+  className,
+  ...props
+}) => {
+  return (
+    <div>
+      <input
+        name={name}
+        id={id}
+        type="checkbox"
+        value={value}
+        checked={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        className={classNames("radio-button")}
+      />
+      <label htmlFor={id}>{label}</label>
+      {touched[name] && <InputFeedback error={errors[name]} />}
+    </div>
+  );
+};
+
+// Radio input
+const RadioButton = ({
+  field: { name, value, onChange, onBlur },
+  id,
+  label,
+  className,
+  ...props
+}) => {
+  return (
+    <div>
+      <input
+        name={name}
+        id={id}
+        type="radio"
+        value={id} // could be something else for output?
+        checked={id === value}
+        onChange={onChange}
+        onBlur={onBlur}
+        className={classNames("radio-button")}
+        {...props}
+      />
+      <label htmlFor={id}>{label}</label>
+    </div>
+  );
+};
+
 
 const validationSchema= Yup.object({
   firstName: Yup.string("Please enter your First Name").required("First Name is required"),
@@ -85,6 +144,12 @@ class NewForm extends Component {
             <Paper className={classes.paper}>
             <form onSubmit={props.handleSubmit}>
               <h1>Donation Form</h1>
+              <Field 
+                  component={Checkbox}
+                  id="corporation"
+                  name="corporation"
+                  label=" Is this a Corporate Donation?"
+              />
               <TextField 
                 id="firstName" 
                 name="firstName" 
@@ -154,7 +219,7 @@ class NewForm extends Component {
                   onChange={props.handleChange}
                   fullWidth 
                 />
-              <Button 
+                <Button 
                   type="submit" 
                   variant="raised" 
                   color="primary"
