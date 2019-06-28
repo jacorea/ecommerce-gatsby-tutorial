@@ -1,5 +1,5 @@
 import React from "react"
-import DonateForm from "../components/DonateForm"
+import NewForm from "../components/NewForm"
 
 export default class IndexPage extends React.Component {
   state = {
@@ -25,7 +25,7 @@ export default class IndexPage extends React.Component {
   render() {
     return (
      <div>
-         <DonateForm/>
+         <NewForm/>
      </div>
     )
   }
