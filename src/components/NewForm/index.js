@@ -4,9 +4,14 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { Form } from "./form";
 import Paper from "@material-ui/core/Paper";
 
+
+
 //Material-ui Imports
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import Grid from '@material-ui/core/Grid';
+
+//Other Libraries
 import * as Yup from "yup";
 import classNames from "classnames";
 
@@ -21,6 +26,19 @@ const styles = theme => ({
  container: {
    maxWidth: "500px",
    margin: "auto",
+ },
+ section: {
+   textAlign: "center",
+   alignItems: "Center"
+ },
+ h3: {
+  textAlign: "center",
+  alignItems: "Center"
+ },
+ hr: {
+   maxWidth: "200px",
+   alignItems: "Center",
+   align: "center"
  }
 });
 
@@ -81,6 +99,34 @@ const RadioButton = ({
   );
 };
 
+// Radio group
+const RadioButtonGroup = ({
+  value,
+  error,
+  touched,
+  id,
+  label,
+  className,
+  children
+}) => {
+  const classes = classNames(
+    "input-field",
+    {
+      "is-success": value || (!error && touched), // handle prefilled or user-filled
+      "is-error": !!error && touched
+    },
+    className
+  );
+  return (
+    <div className={classes}>
+      <fieldset>
+        <legend>{label}</legend>
+        {children}
+        {touched && <InputFeedback error={error} />}
+      </fieldset>
+    </div>
+  );
+};
 
 const validationSchema= Yup.object({
   firstName: Yup.string("Please enter your First Name").required("First Name is required"),
@@ -140,10 +186,13 @@ class NewForm extends Component {
             alert(`Welcome ${values.firstName} ${values.lastName}`);
           }}>
             {props => (
-            <div className={classes.container}>
-            <Paper className={classes.paper}>
-            <form onSubmit={props.handleSubmit}>
-              <h1>Donation Form</h1>
+            <div>
+            <div className={`${classes.section}`}>
+              <h1>Donate</h1>
+              <hr className={classes.hr} />
+              <h3>Billing Information</h3>
+            </div>
+            <form className={`${classes.container}`} onSubmit={props.handleSubmit}>
               <Field 
                   component={Checkbox}
                   id="corporation"
@@ -219,6 +268,31 @@ class NewForm extends Component {
                   onChange={props.handleChange}
                   fullWidth 
                 />
+                <div>
+                  <br/>
+                </div>
+                <div>
+                  <h3 className={classes.h3}>Make a Donation</h3>
+                    <Grid container>
+                    <Grid item xs>
+                    <Field
+                      component={RadioButton}
+                      name="radioGroup"
+                      id="radioOption1"
+                      label=" Monthyly Donation"
+                    />
+                    </Grid>
+                  <Grid xs>
+                    <Field
+                      component={RadioButton}
+                      name="radioGroup"
+                      id="radioOption2"
+                      label=" One-time Donation"
+                    />
+                    </Grid>
+                    </Grid>                   
+                </div>
+                
                 <Button 
                   type="submit" 
                   variant="raised" 
@@ -227,8 +301,7 @@ class NewForm extends Component {
                   fullWidth
                 > Submit
                 </Button>
-            </form>
-            </Paper>
+              </form>
             </div>
             )}
       </Formik>
