@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Formik } from "formik";
+import React, { Component, useState, Fragment, useEffect } from "react";
+import { Formik, Field } from "formik";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Form } from "./form";
 import Paper from "@material-ui/core/Paper";
@@ -31,22 +31,32 @@ const validationSchema= Yup.object({
   state: Yup.string("Please enter your State").required("State is required"),
   zip: Yup.string("Please enter your Zip Code").required("Zip Code is required"),
 })
-
+const initialState = {
+  firstname: "",
+  lastName: "",
+  corporation: "",
+  address1: "",
+  address2: "",
+  city: "",
+  state: "",
+  zip:"",
+  amount: "",
+};
 
 class NewForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      firstname: "",
-      lastName: "",
-      corporation: "",
-      address1: "",
-      address2: "",
-      city: "",
-      state: "",
-      zip:"",
-      donation: "",
-    };
+    // this.state = {
+    //   firstname: "",
+    //   lastName: "",
+    //   corporation: "",
+    //   address1: "",
+    //   address2: "",
+    //   city: "",
+    //   state: "",
+    //   zip:"",
+    //   donation: "",
+    // };
   }
 
   handleChange = (e) => {
@@ -56,88 +66,108 @@ class NewForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    alert(`welcome ${this.state.firstName} ${this.state.lastName} `)
+    alert(`welcome ${initialState.firstName} ${this.state.lastName} `)
   }
  
   render() {
    const {classes} = this.props;
    const values = {firstName:"", lastName:"", address1:"", address2:"", city:"", state:"", zip:""}
-   const {firstName, lastName,corporation, address1,address2,city,state,zip,donation} = this.state;
+  //  const {firstName, lastName,corporation, address1,address2,city,state,zip,donation} = this.state;
    return (
-   <div className={classes.container}>
-     <Paper className={classes.paper}>
-   <form onSubmit={this.handleSubmit}>
-     <TextField 
-      id="firstName" 
-      name="firstName" 
-      label="First Name"
-      value={firstName}
-      onChange={this.handleChange}
-      fullWidth
-     />
-     <TextField 
-        id="lastName" 
-        name="lastName" 
-        label="Last Name"
-        value={lastName}
-        onChange={this.handleChange}
-        fullWidth 
-        type="text" 
-      />
-     <TextField 
-        id="address1" 
-        name="address1" 
-        label="Address"
-        value={address1}
-        onChange={this.handleChange}
-        fullWidth 
-        type="text"
-      />
-     <TextField 
-        id="address2" 
-        name="address2" 
-        label="Apt/Suite"
-        value={address2}
-        onChange={this.handleChange}
-        fullWidth 
-        type="text"
-      />
-     <TextField 
-        id="city" 
-        name="city" 
-        label="City"
-        value={city}
-        onChange={this.handleChange} 
-        fullWidth 
-        type="text"
-      />
-     <TextField city
-         id="state"
-        name="state" 
-        label="State"
-        value={state}
-        onChange={this.handleChange}
-        fullWidth 
-        type="text"
-      />
-     <TextField 
-        id="zip" 
-        name="zip" 
-        label="Zip"
-        value={zip}
-        onChange={this.handleChange}
-        fullWidth 
-      />
-     <Button 
-        type="submit" 
-        variant="raised" 
-        color="primary"
-        fullWidth
-      > Submit
-      </Button>
-   </form>
-   </Paper>
-   </div>
+   <Fragment>
+        <Formik
+          initialValues={initialState}
+          onSubmit={(values,actions) => {
+            alert(`Welcome ${values.firstName} ${values.lastName}`);
+          }}>
+            {props => (
+            <div className={classes.container}>
+            <Paper className={classes.paper}>
+            <form onSubmit={props.handleSubmit}>
+              <h1>Donation Form</h1>
+              <TextField 
+                id="firstName" 
+                name="firstName" 
+                label="First Name"
+                value={props.values.firstName}
+                onChange={props.handleChange}
+                fullWidth
+              />
+              <TextField 
+                  id="lastName" 
+                  name="lastName" 
+                  label="Last Name"
+                  value={props.values.lastName}
+                  onChange={props.handleChange}
+                  fullWidth 
+                  type="text" 
+                />
+              <TextField 
+                  id="address1" 
+                  name="address1" 
+                  label="Address"
+                  value={props.values.address1}
+                  onChange={props.handleChange}
+                  fullWidth 
+                  type="text"
+                />
+              <TextField 
+                  id="address2" 
+                  name="address2" 
+                  label="Apt/Suite"
+                  value={props.values.address2}
+                  onChange={props.handleChange}
+                  fullWidth 
+                  type="text"
+                />
+              <TextField 
+                  id="city" 
+                  name="city" 
+                  label="City"
+                  value={props.values.city}
+                  onChange={props.handleChange} 
+                  fullWidth 
+                  type="text"
+                />
+              <TextField city
+                  id="state"
+                  name="state" 
+                  label="State"
+                  value={props.values.state}
+                  onChange={props.handleChange}
+                  fullWidth 
+                  type="text"
+                />
+              <TextField 
+                  id="zip" 
+                  name="zip" 
+                  label="Zip"
+                  value={props.values.zip}
+                  onChange={props.handleChange}
+                  fullWidth 
+                />
+              <TextField 
+                  id="amount" 
+                  name="amount" 
+                  label="Amount"
+                  value={props.values.amount}
+                  onChange={props.handleChange}
+                  fullWidth 
+                />
+              <Button 
+                  type="submit" 
+                  variant="raised" 
+                  color="primary"
+                  disable={!props.dirty && !props.isSubmitting}
+                  fullWidth
+                > Submit
+                </Button>
+            </form>
+            </Paper>
+            </div>
+            )}
+      </Formik>
+   </Fragment>
    );
  }
 }
