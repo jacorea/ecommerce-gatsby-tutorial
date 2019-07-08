@@ -39,7 +39,13 @@ const styles = theme => ({
    maxWidth: "200px",
    alignItems: "Center",
    align: "center"
- }
+ },
+ control: {
+  padding: theme.spacing(2),
+},
+// inputButton: {
+//   width: 
+// }
 });
 
 // Input feedback
@@ -162,21 +168,28 @@ class NewForm extends Component {
     //   zip:"",
     //   donation: "",
     // };
+
+    this.state = {
+      showButton: false,
+    }
   }
 
-  handleChange = (e) => {
-    this.setState({[e.target.name]: e.target.value})
-    console.log(e.target.value)
-  }
+
 
   handleSubmit = e => {
     e.preventDefault()
     alert(`welcome ${initialState.firstName} ${this.state.lastName} `)
   }
+
+  handleClick= e => {
+    this.setState({showButton: !this.state.showButton})
+  }  
+
  
   render() {
    const {classes} = this.props;
-   const values = {firstName:"", lastName:"", address1:"", address2:"", city:"", state:"", zip:""}
+   const values = {firstName:"", lastName:"", address1:"", address2:"", city:"", state:"", zip:"", amount:""}
+   console.log(this.state)
   //  const {firstName, lastName,corporation, address1,address2,city,state,zip,donation} = this.state;
    return (
    <Fragment>
@@ -184,12 +197,18 @@ class NewForm extends Component {
           initialValues={initialState}
           onSubmit={(values,actions) => {
             alert(`Welcome ${values.firstName} ${values.lastName}`);
-          }}>
+          }}
+          handleClick={(values)=>{
+            if(values.corporation === true) {
+              return console.log(values)
+            }
+          }}
+       >
             {props => (
             <div>
             <div className={`${classes.section}`}>
               <h1>Donate</h1>
-              <hr className={classes.hr} />
+              <hr className={classes.container.h3} />
               <h3>Billing Information</h3>
             </div>
             <form className={`${classes.container}`} onSubmit={props.handleSubmit}>
@@ -199,24 +218,30 @@ class NewForm extends Component {
                   name="corporation"
                   label=" Is this a Corporate Donation?"
               />
-              <TextField 
-                id="firstName" 
-                name="firstName" 
-                label="First Name"
-                value={props.values.firstName}
-                onChange={props.handleChange}
-                fullWidth
-              />
-              <TextField 
-                  id="lastName" 
-                  name="lastName" 
-                  label="Last Name"
-                  value={props.values.lastName}
-                  onChange={props.handleChange}
-                  fullWidth 
-                  type="text" 
-                />
-              <TextField 
+              <Grid container>
+                <Grid item xs>
+                  <TextField 
+                    id="firstName" 
+                    name="firstName" 
+                    label="First Name"
+                    value={props.values.firstName}
+                    onChange={props.handleChange}
+                  />
+                </Grid>
+                <Grid item xs>
+                  <TextField 
+                      id="lastName" 
+                      name="lastName" 
+                      label="Last Name"
+                      value={props.values.lastName}
+                      onChange={props.handleChange}
+                      type="text" 
+                    />
+                </Grid>
+              </Grid>
+              <Grid>
+                <Grid item>
+                  <TextField 
                   id="address1" 
                   name="address1" 
                   label="Address"
@@ -225,7 +250,7 @@ class NewForm extends Component {
                   fullWidth 
                   type="text"
                 />
-              <TextField 
+                <TextField 
                   id="address2" 
                   name="address2" 
                   label="Apt/Suite"
@@ -234,65 +259,153 @@ class NewForm extends Component {
                   fullWidth 
                   type="text"
                 />
-              <TextField 
-                  id="city" 
-                  name="city" 
-                  label="City"
-                  value={props.values.city}
-                  onChange={props.handleChange} 
-                  fullWidth 
-                  type="text"
-                />
-              <TextField city
-                  id="state"
-                  name="state" 
-                  label="State"
-                  value={props.values.state}
-                  onChange={props.handleChange}
-                  fullWidth 
-                  type="text"
-                />
-              <TextField 
-                  id="zip" 
-                  name="zip" 
-                  label="Zip"
-                  value={props.values.zip}
-                  onChange={props.handleChange}
-                  fullWidth 
-                />
-              <TextField 
-                  id="amount" 
-                  name="amount" 
-                  label="Amount"
-                  value={props.values.amount}
-                  onChange={props.handleChange}
-                  fullWidth 
-                />
+                </Grid>
+              </Grid>
+              <Grid container>
+                <Grid item>
+                  <TextField 
+                      id="city" 
+                      name="city" 
+                      label="City"
+                      value={props.values.city}
+                      onChange={props.handleChange}  
+                      type="text"
+                    />
+                </Grid>
+                <Grid item md>
+                  <TextField city
+                      id="state"
+                      name="state" 
+                      label="State"
+                      value={props.values.state}
+                      onChange={props.handleChange}
+                      type="text"
+                    />
+                </Grid>
+                <Grid item md>
+                  <TextField 
+                      id="zip" 
+                      name="zip" 
+                      label="Zip"
+                      value={props.values.zip}
+                      onChange={props.handleChange} 
+                    />
+                </Grid>
+              </Grid>
                 <div>
                   <br/>
                 </div>
                 <div>
                   <h3 className={classes.h3}>Make a Donation</h3>
+                  <RadioButtonGroup
+                    id="radioGroup"
+                    label="Donation Type"
+                    value={values.radioGroup}
+                    className={classes.section}
+                  >
                     <Grid container>
-                    <Grid item xs>
-                    <Field
-                      component={RadioButton}
-                      name="radioGroup"
-                      id="radioOption1"
-                      label=" Monthyly Donation"
-                    />
+                      <Grid item xs>
+                        <Field
+                          component={RadioButton}
+                          name="radioGroup"
+                          id="radioOption1"
+                          label=" Monthyly Donation"
+                        />
+                      </Grid>
+                      <Grid xs>
+                      <Field
+                        component={RadioButton}
+                        name="radioGroup"
+                        id="radioOption2"
+                        label=" One-time Donation"
+                      />
                     </Grid>
-                  <Grid xs>
-                    <Field
-                      component={RadioButton}
-                      name="radioGroup"
-                      id="radioOption2"
-                      label=" One-time Donation"
-                    />
-                    </Grid>
-                    </Grid>                   
+                  </Grid>
+                  </RadioButtonGroup>                   
                 </div>
-                
+                <div className={classes.section}>
+                  <Grid container>
+                    <Grid item xs>
+                      <Button 
+                        type="button" 
+                        variant="contained" 
+                        color="primary"
+                        onClick={this.handleClick}
+                      > $10
+                      </Button>
+                    </Grid>
+                    <Grid item xs>
+                      <Button 
+                        type="button" 
+                        variant="contained" 
+                        color="primary"
+                        onClick={this.handleClick}
+                      > $50
+                      </Button>
+                    </Grid>
+                    <Grid item xs>
+                      <Button 
+                        type="button" 
+                        variant="contained" 
+                        color="primary"
+                        onClick={this.handleClick}
+                      > $100
+                      </Button>
+                    </Grid>
+                  </Grid>
+                  <br/>
+                  <Grid container>
+                    <Grid item xs>
+                      <Button 
+                        type="button" 
+                        variant="contained" 
+                        color="primary"
+                        onClick={this.handleClick}
+                      > $200
+                      </Button>
+                    </Grid>
+                    <Grid item xs>
+                      <Button 
+                        type="button" 
+                        variant="contained" 
+                        color="primary"
+                        onClick={this.handleClick}
+                      > $500
+                      </Button>
+                    </Grid>
+                    <Grid item xs>
+                      <Button 
+                        type="button" 
+                        variant="contained" 
+                        color="primary"
+                        size="small"
+                      >
+                      <TextField 
+                        id="amount" 
+                        name="amount" 
+                        value={props.values.amount}
+                        onChange={props.handleClick}
+                      />
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </div>
+                <br/>
+                {this.state.showButton &&
+                 <Grid className={classes.h3}>
+                  <Grid>
+                    <hr className={classes.h3}/>
+                  </Grid>
+                  <Grid>
+                    <Button
+                      type="button" 
+                      variant="contained" 
+                      color="primary"
+                      size="small"
+                    >Donate
+                    </Button>
+                  </Grid>
+                </Grid>}
                 <Button 
                   type="submit" 
                   variant="raised" 
