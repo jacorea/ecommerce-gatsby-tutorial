@@ -1,5 +1,6 @@
 import React from "react"
 import NewForm from "../components/NewForm"
+import FiftyStates from "../components/FiftyStates"
 
 export default class IndexPage extends React.Component {
   state = {

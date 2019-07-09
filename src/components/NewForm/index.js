@@ -10,10 +10,14 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from '@material-ui/core/Grid';
+import  {Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 
 //Other Libraries
 import * as Yup from "yup";
 import classNames from "classnames";
+
+//Element Imports 
+import states from '../../Elements/FiftyStates'
 
 const styles = theme => ({
  paper: {
@@ -152,6 +156,7 @@ const initialState = {
   state: "",
   zip:"",
   amount: "",
+  states: [],
 };
 
 class NewForm extends Component {
@@ -171,14 +176,27 @@ class NewForm extends Component {
 
     this.state = {
       showButton: false,
+      states: [],
+      state: "",
     }
   }
 
+  componentDidMount = () => {
+    const {state} = this.state
+    this.createArrayOfStates(states)
+    console.log()
+  }
+
+  createArrayOfStates = (array) => {
+    const {states} = this.state 
+    const newArray = array.map(obj => `${obj.name}`)
+    this.setState({states:newArray})
+  }
 
 
   handleSubmit = e => {
     e.preventDefault()
-    alert(`welcome ${initialState.firstName} ${this.state.lastName} `)
+    alert(`welcome ${this.state.firstName} ${this.state.lastName} `)
   }
 
   handleClick= e => {
@@ -188,8 +206,8 @@ class NewForm extends Component {
  
   render() {
    const {classes} = this.props;
-   const values = {firstName:"", lastName:"", address1:"", address2:"", city:"", state:"", zip:"", amount:""}
-   console.log(this.state)
+   const values = {firstName:"", lastName:"", address1:"", address2:"", city:"", state:"", zip:"", amount:"", states: ""}
+
   //  const {firstName, lastName,corporation, address1,address2,city,state,zip,donation} = this.state;
    return (
    <Fragment>
@@ -197,11 +215,6 @@ class NewForm extends Component {
           initialValues={initialState}
           onSubmit={(values,actions) => {
             alert(`Welcome ${values.firstName} ${values.lastName}`);
-          }}
-          handleClick={(values)=>{
-            if(values.corporation === true) {
-              return console.log(values)
-            }
           }}
        >
             {props => (
@@ -228,7 +241,7 @@ class NewForm extends Component {
                     onChange={props.handleChange}
                   />
                 </Grid>
-                <Grid item xs>
+                <Grid item >
                   <TextField 
                       id="lastName" 
                       name="lastName" 
@@ -270,17 +283,21 @@ class NewForm extends Component {
                       value={props.values.city}
                       onChange={props.handleChange}  
                       type="text"
-                    />
+                  />
                 </Grid>
-                <Grid item md>
-                  <TextField city
-                      id="state"
-                      name="state" 
-                      label="State"
-                      value={props.values.state}
-                      onChange={props.handleChange}
-                      type="text"
-                    />
+                <Grid item>
+                    <Field
+                        component = "select"
+                        id="state"
+                        name="state" 
+                        onChange={props.handleChange}
+                        type="text"
+                    >
+                    {this.state.states.map((state,index) => {
+                      return(<option key={index} value={state}>{state}</option>)
+                    })}
+                    </Field>
+
                 </Grid>
                 <Grid item md>
                   <TextField 
